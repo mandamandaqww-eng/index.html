@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survival Kit — Adhazone</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8F0;
+    --peach: #FFCBA4;
+    --peach-dark: #F4A265;
+    --teal: #2BBFBF;
+    --teal-dark: #1A9A9A;
+    --teal-light: #E8F8F8;
+    --blue: #1565C0;
+    --blue-light: #E3F0FF;
+    --yellow: #FFD600;
+    --yellow-light: #FFFDE0;
+    --brown: #8B5E3C;
+    --text: #1A1A2E;
+    --text-soft: #6B7280;
+    --white: #FFFFFF;
+    --border: #E5DDD5;
+    --success: #22C55E;
+    --danger: #EF4444;
+    --warn: #F59E0B;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .app-header {
+    background: var(--teal);
+    padding: 20px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(43,191,191,0.3);
+  }
+  .app-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .app-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--white);
+  }
+  .save-badge {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  /* ── Nav Tabs ── */
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 0;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab.active {
+    background: var(--cream);
+    color: var(--teal-dark);
+  }
+  .nav-tab:hover:not(.active) {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+
+  /* ── Content ── */
+  .content {
+    padding: 20px 16px 100px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .card-subtitle {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 2px;
+  }
+
+  /* ── Inputs ── */
+  .field-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 6px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .field-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+    margin-bottom: 14px;
+  }
+  .field-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(43,191,191,0.12);
+    background: white;
+  }
+  .field-input::placeholder { color: #C4B5A5; }
+
+  /* ── Ide boxes ── */
+  .ide-grid { display: flex; flex-direction: column; gap: 10px; }
+  .ide-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ide-badge {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--teal);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .ide-input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .ide-input:focus {
+    border-color: var(--teal);
+    background: white;
+  }
+
+  /* ── Filter cards ── */
+  .filter-block {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .filter-header {
+    background: var(--teal-light);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .filter-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal-dark);
+  }
+  .filter-body { padding: 14px; }
+  .filter-options {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .filter-option {
+    display: none;
+  }
+  .filter-option + label {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-soft);
+  }
+  .filter-option[data-type="aman"] + label { border-color: #86EFAC; }
+  .filter-option[data-type="aman"]:checked + label { background: #22C55E; color: white; border-color: #22C55E; }
+  .filter-option[data-type="perlu"] + label { border-color: #FCD34D; }
+  .filter-option[data-type="perlu"]:checked + label { background: #F59E0B; color: white; border-color: #F59E0B; }
+  .filter-option[data-type="bahaya"] + label { border-color: #FCA5A5; }
+  .filter-option[data-type="bahaya"]:checked + label { background: #EF4444; color: white; border-color: #EF4444; }
+
+  /* ── Checkboxes ── */
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #F5F0EB;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .check-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-item input:checked ~ .check-content .check-box,
+  .check-item.checked .check-box {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+  .check-item input:checked ~ .check-content .check-box::after,
+  .check-item.checked .check-box::after {
+    content: '✓';
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .check-content { flex: 1; }
+  .check-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .check-item.checked .check-label {
+    text-decoration: line-through;
+    color: var(--text-soft);
+  }
+
+  /* ── Daily Log ── */
+  .day-header {
+    background: var(--teal);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+  }
+  .day-date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .date-input {
+    width: 36px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+  }
+  .date-input::placeholder { color: rgba(255,255,255,0.6); }
+  .date-sep { color: rgba(255,255,255,0.7); font-weight: 700; }
+  .date-year { width: 52px; }
+
+  .motivasi-box {
+    background: var(--yellow-light);
+    border: 1.5px solid #FDE68A;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #92400E;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .jadwal-table { width: 100%; border-collapse: collapse; }
+  .jadwal-table th {
+    background: var(--teal);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  .jadwal-table th:first-child { border-radius: 8px 0 0 0; }
+  .jadwal-table th:last-child { border-radius: 0 8px 0 0; }
+  .jadwal-input {
+    width: 100%;
+    border: none;
+    padding: 8px 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    background: transparent;
+    color: var(--text);
+    outline: none;
+  }
+  .jadwal-table tr { border-bottom: 1px solid var(--border); }
+  .jadwal-table tr:last-child { border-bottom: none; }
+
+  /* ── Progress Bar ── */
+  .progress-wrap {
+    margin-top: 6px;
+    background: #F0EDE8;
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* ── Keputusan Final ── */
+  .keputusan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .keputusan-option { display: none; }
+  .keputusan-option + label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-soft);
+  }
+  .keputusan-option + label .k-icon { font-size: 22px; }
+  #k-lolos + label { border-color: #86EFAC; }
+  #k-lolos:checked + label { background: #22C55E; color: white; border-color: #22C55E; }
+  #k-revisi + label { border-color: #FCD34D; }
+  #k-revisi:checked + label { background: #F59E0B; color: white; border-color: #F59E0B; }
+  #k-ganti + label { border-color: #FCA5A5; }
+  #k-ganti:checked + label { background: #EF4444; color: white; border-color: #EF4444; }
+
+  /* ── Save indicator ── */
+  .save-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .save-indicator.show { opacity: 1; }
+
+  /* ── Section headers ── */
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .section-intro {
+    background: #FFF3E0;
+    border-left: 3px solid var(--peach-dark);
+    padding: 12px 14px;
+    border-radius: 0 10px 10px 0;
+    font-size: 13px;
+    color: #7C3C00;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .section-intro strong { color: var(--peach-dark); }
+
+  /* ── Ide utama block ── */
+  .ide-utama-block {
+    background: var(--teal);
+    color: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ide-utama-input {
+    flex: 1;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+  }
+  .ide-utama-input::placeholder { color: rgba(255,255,255,0.6); }
+
+  .cadangan-block {
+    background: var(--blue-light);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cadangan-input {
+    flex: 1;
+    background: white;
+    border: 1.5px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+
+  /* ── Argumen section ── */
+  .argumen-item {
+    margin-bottom: 14px;
+  }
+  .argumen-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 8px;
+    background: var(--teal-light);
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+
+  /* ── Judul ACC ── */
+  .acc-box {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 8px;
+  }
+  .acc-label {
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .acc-input {
+    width: 100%;
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+  }
+  .acc-input::placeholder { color: rgba(255,255,255,0.5); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-header-top">
+    <div>
+      <div class="app-logo">Adhazone Book</div>
+      <div class="app-title">Survival Kit ✦</div>
+    </div>
+    <div class="save-badge">💾 Auto-save</div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('arena')">💡 Arena Ide</button>
+    <button class="nav-tab" onclick="showSection('filter')">🔍 Filter Ngeyel</button>
+    <button class="nav-tab" onclick="showSection('argumen')">🗣 Argumen</button>
+    <button class="nav-tab" onclick="showSection('keputusan')">🏆 Keputusan</button>
+    <button class="nav-tab" onclick="showSection('log1')">📋 Log Hari 1</button>
+    <button class="nav-tab" onclick="showSection('log2')">📋 Log Hari 2</button>
+  </nav>
+</div>
+
+<div class="content">
+
+  <!-- ══ ARENA IDE ══ -->
+  <div class="section active" id="section-arena">
+    <div class="section-tag">💡 Bagian 1</div>
+    <div class="section-intro">
+      Aturan di sini cuma <strong>SATU</strong>: tulis semua yang terlintas di pikiranmu, tanpa diedit, tanpa disensor. Ide jelek sekalipun, tulis! 🔥
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#E8F8F8;">📌</div>
+        <div>
+          <div class="card-title">Topik yang Paling Aku Minati</div>
+          <div class="card-subtitle">Bidang / tema yang membuatmu tertarik</div>
+        </div>
+      </div>
+      <textarea class="field-input" id="topik_minat" rows="3" placeholder="Contoh: pendidikan dasar, media pembelajaran, teknologi..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#E8F8F8;">💭</div>
+        <div>
+          <div class="card-title">Ide-Ide Judul Mentah</div>
+          <div class="card-subtitle">Tulis semuanya — jangan disensor!</div>
+        </div>
+      </div>
+      <div class="ide-grid">
+        <div class="ide-row"><div class="ide-badge"><span>IDE</span><span>1</span></div><input class="ide-input" id="ide_1" placeholder="ide pertamamu..." /></div>
+        <div class="ide-row"><div class="ide-badge"><span>IDE</span><span>2</span></div><input class="ide-input" id="ide_2" placeholder="ide kedua..." /></div>
+        <div class="ide-row"><div class="ide-badge"><span>IDE</span><span>3</span></div><input class="ide-input" id="ide_3" placeholder="ide ketiga..." /></div>
+        <div class="ide-row"><div class="ide-badge"><span>IDE</span><span>4</span></div><input class="ide-input" id="ide_4" placeholder="ide keempat..." /></div>
+        <div class="ide-row"><div class="ide-badge"><span>IDE</span><span>5</span></div><input class="ide-input" id="ide_5" placeholder="ide kelima..." /></div>
+        <div class="ide-row"><div class="ide-badge" style="background:#9CA3AF;"><span>IDE</span><span>6</span></div><input class="ide-input" id="ide_6" placeholder="ide keenam..." /></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FFF3E0;">🔖</div>
+        <div>
+          <div class="card-title">Ide Paling Menarik Saat Ini</div>
+          <div class="card-subtitle">Dari semua ide di atas, yang ini yang paling bersinar</div>
+        </div>
+      </div>
+      <textarea class="field-input" id="ide_terbaik" rows="4" placeholder="Tulis ide yang paling kamu yakini di sini..."></textarea>
+    </div>
+  </div>
+
+  <!-- ══ FILTER NGEYEL ══ -->
+  <div class="section" id="section-filter">
+    <div class="section-tag">🔍 Bagian 2</div>
+    <div class="section-intro">
+      Sudah punya beberapa ide? Bagus. Sekarang jadi ngeyel sama ide sendiri. Kalau satu ide lolos <strong>ketiga filter</strong> — dia kandidat serius! 🎯
+    </div>
+
+    <!-- IDE UTAMA -->
+    <div class="card">
+      <div class="ide-utama-block">
+        <span>🎯 IDE UTAMA</span>
+        <input class="ide-utama-input" id="filter_ide_utama" placeholder="tuliskan ide utamamu..." />
+      </div>
+
+      <div class="filter-block">
+        <div class="filter-header"><span>📂</span><span class="filter-title">Filter 1 — Akses Data: Bisa dapat data-nya?</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="utama_f1" id="u_f1_aman" data-type="aman"><label for="u_f1_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="utama_f1" id="u_f1_perlu" data-type="perlu"><label for="u_f1_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="utama_f1" id="u_f1_bahaya" data-type="bahaya"><label for="u_f1_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="utama_f1_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+
+      <div class="filter-block">
+        <div class="filter-header"><span>⚙️</span><span class="filter-title">Filter 2 — Kemudahan: Mampu dikerjain sendiri?</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="utama_f2" id="u_f2_aman" data-type="aman"><label for="u_f2_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="utama_f2" id="u_f2_perlu" data-type="perlu"><label for="u_f2_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="utama_f2" id="u_f2_bahaya" data-type="bahaya"><label for="u_f2_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="utama_f2_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+
+      <div class="filter-block">
+        <div class="filter-header"><span>🤝</span><span class="filter-title">Filter 3 — Kecocokan Dosbing: Sesuai keahlian dosen?</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="utama_f3" id="u_f3_aman" data-type="aman"><label for="u_f3_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="utama_f3" id="u_f3_perlu" data-type="perlu"><label for="u_f3_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="utama_f3" id="u_f3_bahaya" data-type="bahaya"><label for="u_f3_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="utama_f3_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- IDE CADANGAN 1 -->
+    <div class="card">
+      <div class="cadangan-block">
+        <span>🔁 IDE CADANGAN 1</span>
+        <input class="cadangan-input" id="filter_cad1" placeholder="ide cadangan pertama..." />
+      </div>
+
+      <div class="filter-block">
+        <div class="filter-header"><span>📂</span><span class="filter-title">Filter 1 — Akses Data</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad1_f1" id="c1_f1_aman" data-type="aman"><label for="c1_f1_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad1_f1" id="c1_f1_perlu" data-type="perlu"><label for="c1_f1_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad1_f1" id="c1_f1_bahaya" data-type="bahaya"><label for="c1_f1_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad1_f1_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-header"><span>⚙️</span><span class="filter-title">Filter 2 — Kemudahan</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad1_f2" id="c1_f2_aman" data-type="aman"><label for="c1_f2_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad1_f2" id="c1_f2_perlu" data-type="perlu"><label for="c1_f2_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad1_f2" id="c1_f2_bahaya" data-type="bahaya"><label for="c1_f2_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad1_f2_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-header"><span>🤝</span><span class="filter-title">Filter 3 — Kecocokan Dosbing</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad1_f3" id="c1_f3_aman" data-type="aman"><label for="c1_f3_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad1_f3" id="c1_f3_perlu" data-type="perlu"><label for="c1_f3_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad1_f3" id="c1_f3_bahaya" data-type="bahaya"><label for="c1_f3_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad1_f3_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- IDE CADANGAN 2 -->
+    <div class="card">
+      <div class="cadangan-block" style="background:#F3E8FF; color:#7C3AED;">
+        <span>🔁 IDE CADANGAN 2</span>
+        <input class="cadangan-input" id="filter_cad2" placeholder="ide cadangan kedua..." style="border-color:#DDD6FE;" />
+      </div>
+      <div class="filter-block">
+        <div class="filter-header"><span>📂</span><span class="filter-title">Filter 1 — Akses Data</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad2_f1" id="c2_f1_aman" data-type="aman"><label for="c2_f1_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad2_f1" id="c2_f1_perlu" data-type="perlu"><label for="c2_f1_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad2_f1" id="c2_f1_bahaya" data-type="bahaya"><label for="c2_f1_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad2_f1_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-header"><span>⚙️</span><span class="filter-title">Filter 2 — Kemudahan</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad2_f2" id="c2_f2_aman" data-type="aman"><label for="c2_f2_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad2_f2" id="c2_f2_perlu" data-type="perlu"><label for="c2_f2_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad2_f2" id="c2_f2_bahaya" data-type="bahaya"><label for="c2_f2_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad2_f2_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+      <div class="filter-block">
+        <div class="filter-header"><span>🤝</span><span class="filter-title">Filter 3 — Kecocokan Dosbing</span></div>
+        <div class="filter-body">
+          <div class="filter-options">
+            <input type="radio" class="filter-option" name="cad2_f3" id="c2_f3_aman" data-type="aman"><label for="c2_f3_aman">✅ Aman</label>
+            <input type="radio" class="filter-option" name="cad2_f3" id="c2_f3_perlu" data-type="perlu"><label for="c2_f3_perlu">⚠️ Perlu Cek</label>
+            <input type="radio" class="filter-option" name="cad2_f3" id="c2_f3_bahaya" data-type="bahaya"><label for="c2_f3_bahaya">❌ Bahaya</label>
+          </div>
+          <textarea class="field-input" id="cad2_f3_catatan" rows="2" placeholder="Catatan..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ARGUMEN ══ -->
+  <div class="section" id="section-argumen">
+    <div class="section-tag">🗣 Bagian 3</div>
+    <div class="section-intro">
+      Dosbing bakal tanya: <strong>"Kenapa ini penting diteliti?"</strong> — dan kamu harus siap. Tulis argumenmu di sini sebelum masuk ruangan bimbingan. Ini senjata rahasiamu! 💚
+    </div>
+
+    <div class="card">
+      <div class="argumen-item">
+        <div class="argumen-label">❓ Mengapa topik ini penting dan relevan saat ini?</div>
+        <textarea class="field-input" id="arg_mengapa" rows="4" placeholder="Jelaskan relevansi topikmu..."></textarea>
+      </div>
+      <div class="argumen-item">
+        <div class="argumen-label">📰 Apa gap penelitian yang belum dijawab?</div>
+        <textarea class="field-input" id="arg_gap" rows="4" placeholder="Research gap yang kamu temukan..."></textarea>
+      </div>
+      <div class="argumen-item">
+        <div class="argumen-label">🎯 Apa kontribusi konkret skripsi ini?</div>
+        <textarea class="field-input" id="arg_kontribusi" rows="4" placeholder="Kontribusi praktis & teoretis..."></textarea>
+      </div>
+      <div class="argumen-item">
+        <div class="argumen-label">📊 Di mana dan bagaimana kamu dapat data?</div>
+        <textarea class="field-input" id="arg_data" rows="4" placeholder="Sumber data dan metode pengambilan..."></textarea>
+      </div>
+      <div class="argumen-item">
+        <div class="argumen-label">⏱ Kenapa kamu BISA menyelesaikan tepat waktu?</div>
+        <textarea class="field-input" id="arg_mampu" rows="4" placeholder="Keyakinanmu dan rencana waktumu..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ KEPUTUSAN FINAL ══ -->
+  <div class="section" id="section-keputusan">
+    <div class="section-tag">🏆 Keputusan Final</div>
+
+    <div class="card">
+      <label class="field-label">Judul Kandidat Terkuat</label>
+      <textarea class="field-input" id="judul_kandidat" rows="3" placeholder="Tuliskan judul terkuatmu di sini..."></textarea>
+
+      <label class="field-label">Status Keputusan</label>
+      <div class="keputusan-grid">
+        <div>
+          <input type="radio" class="keputusan-option" name="keputusan" id="k-lolos">
+          <label for="k-lolos"><span class="k-icon">✅</span>LOLOS FILTER<span style="font-weight:400;font-size:10px;">Siap ke dosbing</span></label>
+        </div>
+        <div>
+          <input type="radio" class="keputusan-option" name="keputusan" id="k-revisi">
+          <label for="k-revisi"><span class="k-icon">🔧</span>PERLU REVISI<span style="font-weight:400;font-size:10px;">Ada 1-2 hal perlu diperkuat</span></label>
+        </div>
+        <div>
+          <input type="radio" class="keputusan-option" name="keputusan" id="k-ganti">
+          <label for="k-ganti"><span class="k-icon">❌</span>GANTI JUDUL<span style="font-weight:400;font-size:10px;">Balik ke Bagian 1</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-box">
+      <div class="acc-label">✅ Judul ACC Dosen</div>
+      <textarea class="acc-input" id="judul_acc" rows="3" placeholder="Judul yang sudah disetujui dosen pembimbingmu..."></textarea>
+    </div>
+  </div>
+
+  <!-- ══ DAILY LOG HARI 1 ══ -->
+  <div class="section" id="section-log1">
+    <div class="day-header">
+      <div class="day-title">📋 Daily Survival Log<br><span style="font-size:13px;font-weight:500;opacity:0.85;">Hari ke-01</span></div>
+      <div class="day-date-inputs">
+        <input class="date-input" id="h1_dd" placeholder="DD" maxlength="2">
+        <span class="date-sep">/</span>
+        <input class="date-input" id="h1_mm" placeholder="MM" maxlength="2">
+        <span class="date-sep">/</span>
+        <input class="date-input date-year" id="h1_yy" placeholder="YYYY" maxlength="4">
+      </div>
+    </div>
+
+    <div class="motivasi-box">
+      "Hari ini bukan soal sempurna — tapi soal satu langkah lebih maju dari kemarin. Ayo, kamu pasti bisa!"
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FFF3E0;">🎯</div>
+        <div><div class="card-title">Target Utama Besok</div></div>
+      </div>
+      <label class="field-label">⭐ Satu hal yang WAJIB selesai</label>
+      <textarea class="field-input" id="h1_target" rows="3" placeholder="Tulis 1 target utama yang tidak boleh tidak selesai..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#E8F8F8;">📅</div>
+        <div><div class="card-title">Jadwal Kampus Besok</div></div>
+      </div>
+      <table class="jadwal-table">
+        <thead><tr><th>Jam</th><th>Kegiatan</th><th>Lokasi</th></tr></thead>
+        <tbody>
+          <tr><td><input class="jadwal-input" id="h1_j1_jam" placeholder="11.00"></td><td><input class="jadwal-input" id="h1_j1_keg" placeholder="Bertemu dosbing"></td><td><input class="jadwal-input" id="h1_j1_lok" placeholder="Jurusan"></td></tr>
+          <tr><td><input class="jadwal-input" id="h1_j2_jam" placeholder="..."></td><td><input class="jadwal-input" id="h1_j2_keg" placeholder="..."></td><td><input class="jadwal-input" id="h1_j2_lok" placeholder="..."></td></tr>
+          <tr><td><input class="jadwal-input" id="h1_j3_jam" placeholder="..."></td><td><input class="jadwal-input" id="h1_j3_keg" placeholder="..."></td><td><input class="jadwal-input" id="h1_j3_lok" placeholder="..."></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="card">
+        <div class="card-header" style="margin-bottom:10px;">
+          <div class="card-icon" style="background:#FFF3E0;font-size:16px;">🎒</div>
+          <div class="card-title" style="font-size:14px;">Bawa Apa?</div>
+        </div>
+        <div id="bawa1-list">
+          <div class="check-item" onclick="toggleCheck(this,'h1_bawa_draft')"><input type="checkbox" id="h1_bawa_draft"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Draft Skripsi</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_bawa_laptop')"><input type="checkbox" id="h1_bawa_laptop"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Laptop + Charger</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_bawa_pulpen')"><input type="checkbox" id="h1_bawa_pulpen"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Pulpen & Buku</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_bawa_e1')"><input type="checkbox" id="h1_bawa_e1"><div class="check-content"><div class="check-box"></div></div><input style="border:none;background:transparent;font-size:13px;width:100%;outline:none;color:var(--text);" placeholder="tambah..." oninput="saveAll()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" style="margin-bottom:10px;">
+          <div class="card-icon" style="background:#E8F8F8;font-size:16px;">✅</div>
+          <div class="card-title" style="font-size:14px;">Urusan</div>
+        </div>
+        <div id="urus1-list">
+          <div class="check-item" onclick="toggleCheck(this,'h1_urus_dosbing')"><input type="checkbox" id="h1_urus_dosbing"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Ke Dosbing</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_urus_perpus')"><input type="checkbox" id="h1_urus_perpus"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Ke Perpustakaan</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_urus_print')"><input type="checkbox" id="h1_urus_print"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Print berkas</div></div>
+          <div class="check-item" onclick="toggleCheck(this,'h1_urus_e1')"><input type="checkbox" id="h1_urus_e1"><div class="check-content"><div class="check-box"></div></div><input style="border:none;background:transparent;font-size:13px;width:100%;outline:none;color:var(--text);" placeholder="tambah..." oninput="saveAll()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="card-header">
+        <div class="card-icon" style="background:#F3E8FF;">📝</div>
+        <div><div class="card-title">Catatan / Pengingat</div></div>
+      </div>
+      <textarea class="field-input" id="h1_catatan" rows="4" placeholder="Tulis apa saja yang perlu diingat hari ini..."></textarea>
+    </div>
+  </div>
+
+  <!-- ══ DAILY LOG HARI 2 ══ -->
+  <div class="section" id="section-log2">
+    <div class="day-header" style="background:linear-gradient(135deg,#7B6B9A,#5B4B8A);">
+      <div class="day-title">📋 Daily Survival Log<br><span style="font-size:13px;font-weight:500;opacity:0.85;">Hari ke-02</span></div>
+      <div class="day-date-inputs">
+        <input class="date-input" id="h2_dd" placeholder="DD" maxlength="2">
+        <span class="date-sep">/</span>
+        <input class="date-input" id="h2_mm" placeholder="MM" maxlength="2">
+        <span class="date-sep">/</span>
+        <input class="date-input date-year" id="h2_yy" placeholder="YYYY" maxlength="4">
+      </div>
+    </div>
+
+    <div class="motivasi-box">
+      "Hari ini bukan soal sempurna — tapi soal satu langkah lebih maju dari kemarin. Ayo, kamu pasti bisa!"
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FFF3E0;">🎯</div>
+        <div><div class="card-title">Target Utama Besok</div></div>
+      </div>
+      <label class="field-label">⭐ Satu hal yang WAJIB selesai</label>
+      <textarea class="field-input" id="h2_target" rows="3" placeholder="Tulis 1 target utama yang tidak boleh tidak selesai..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#E8F8F8;">📅</div>
+        <div><div class="card-title">Jadwal Kampus Besok</div></div>
+      </div>
+      <table class="jadwal-table">
+        <thead><tr><th>Jam</th><th>Kegiatan</th><th>Lokasi</th></tr></thead>
+        <tbody>
+          <tr><td><input class="jadwal-input" id="h2_j1_jam" placeholder="..."></td><td><input class="jadwal-input" id="h2_j1_keg" placeholder="..."></td><td><input class="jadwal-input" id="h2_j1_lok" placeholder="..."></td></tr>
+          <tr><td><input class="jadwal-input" id="h2_j2_jam" placeholder="..."></td><td><input class="jadwal-input" id="h2_j2_keg" placeholder="..."></td><td><input class="jadwal-input" id="h2_j2_lok" placeholder="..."></td></tr>
+          <tr><td><input class="jadwal-input" id="h2_j3_jam" placeholder="..."></td><td><input class="jadwal-input" id="h2_j3_keg" placeholder="..."></td><td><input class="jadwal-input" id="h2_j3_lok" placeholder="..."></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="card">
+        <div class="card-header" style="margin-bottom:10px;">
+          <div class="card-icon" style="background:#FFF3E0;font-size:16px;">🎒</div>
+          <div class="card-title" style="font-size:14px;">Bawa Apa?</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_bawa_draft')"><input type="checkbox" id="h2_bawa_draft"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Draft Skripsi</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_bawa_laptop')"><input type="checkbox" id="h2_bawa_laptop"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Laptop + Charger</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_bawa_pulpen')"><input type="checkbox" id="h2_bawa_pulpen"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Pulpen & Buku</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_bawa_e1')"><input type="checkbox" id="h2_bawa_e1"><div class="check-content"><div class="check-box"></div></div><input style="border:none;background:transparent;font-size:13px;width:100%;outline:none;color:var(--text);" placeholder="tambah..." oninput="saveAll()"></div>
+      </div>
+      <div class="card">
+        <div class="card-header" style="margin-bottom:10px;">
+          <div class="card-icon" style="background:#E8F8F8;font-size:16px;">✅</div>
+          <div class="card-title" style="font-size:14px;">Urusan</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_urus_dosbing')"><input type="checkbox" id="h2_urus_dosbing"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Ke Dosbing</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_urus_perpus')"><input type="checkbox" id="h2_urus_perpus"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Ke Perpustakaan</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_urus_print')"><input type="checkbox" id="h2_urus_print"><div class="check-content"><div class="check-box"></div></div><div class="check-label">Print berkas</div></div>
+        <div class="check-item" onclick="toggleCheck(this,'h2_urus_e1')"><input type="checkbox" id="h2_urus_e1"><div class="check-content"><div class="check-box"></div></div><input style="border:none;background:transparent;font-size:13px;width:100%;outline:none;color:var(--text);" placeholder="tambah..." oninput="saveAll()"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="card-header">
+        <div class="card-icon" style="background:#F3E8FF;">📝</div>
+        <div><div class="card-title">Catatan / Pengingat</div></div>
+      </div>
+      <textarea class="field-input" id="h2_catatan" rows="4" placeholder="Tulis apa saja yang perlu diingat hari ini..."></textarea>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<div class="save-indicator" id="save-indicator">✓ Tersimpan otomatis</div>
+
+<script>
+// ── Navigation ──────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Checkbox toggle ──────────────────────────────────────────────
+function toggleCheck(el, id) {
+  el.classList.toggle('checked');
+  const cb = document.getElementById(id);
+  if (cb) cb.checked = el.classList.contains('checked');
+  saveAll();
+}
+
+// ── Auto-save ke localStorage ─────────────────────────────────────
+const SAVE_KEY = 'adhazone_survival_kit';
+let saveTimer;
+
+function saveAll() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    const data = {};
+    // Text fields & textareas
+    document.querySelectorAll('[id]').forEach(el => {
+      if ((el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') || el.tagName === 'TEXTAREA') {
+        if (el.id) data[el.id] = el.value;
+      }
+    });
+    // Checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (cb.id) data[cb.id] = cb.checked;
+    });
+    // Radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(r => {
+      if (r.checked) data[r.name] = r.id;
+    });
+    // Check items state
+    document.querySelectorAll('.check-item').forEach((el, i) => {
+      data['ci_' + i] = el.classList.contains('checked');
+    });
+
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      showSaveIndicator();
+    } catch(e) {}
+  }, 600);
+}
+
+function showSaveIndicator() {
+  const ind = document.getElementById('save-indicator');
+  ind.classList.add('show');
+  setTimeout(() => ind.classList.remove('show'), 1800);
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+
+    Object.keys(data).forEach(key => {
+      const el = document.getElementById(key);
+      if (!el) return;
+      if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox')) {
+        el.value = data[key];
+      } else if (el.type === 'checkbox') {
+        el.checked = data[key];
+      }
+    });
+
+    // Restore radio buttons
+    ['utama_f1','utama_f2','utama_f3','cad1_f1','cad1_f2','cad1_f3','cad2_f1','cad2_f2','cad2_f3','keputusan'].forEach(name => {
+      if (data[name]) {
+        const r = document.getElementById(data[name]);
+        if (r) r.checked = true;
+      }
+    });
+
+    // Restore check items
+    document.querySelectorAll('.check-item').forEach((el, i) => {
+      if (data['ci_' + i]) el.classList.add('checked');
+    });
+  } catch(e) {}
+}
+
+// ── Attach save listeners ─────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll();
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', saveAll);
+    el.addEventListener('change', saveAll);
+  });
+});
+</script>
+</body>
+</html>
